@@ -1,19 +1,16 @@
 <template>
-  <div id="app">
-    <ToDoPage />
-  </div>
+    <task-list></task-list>
 </template>
 
 <script>
-import ToDoPage from './pages/ToDoPage.vue'
+import TaskList from '../components/TaskList.vue'
 export default {
-  name: 'App',
-  components: {
-    ToDoPage
-  }
+    name: "ToDoPage",
+    components:{
+        TaskList
+    }
 }
 </script>
-
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
