@@ -20,13 +20,23 @@
             <div class="drop-zone" @drop="onDrop($event, 'doing')" @dragover.prevent @dragenter.prevent>
                 <h1>Doing</h1>
                 <div class="drag-el" draggable @dragstart="onStart($event,task)" v-for="task in taskDoing" :key="task.id" >
-                    {{ task.title }}
+                    <span v-if="editTask != task.id">{{ task.title }}</span>
+                    <input v-else class="edit-task" type="text" v-model="task.title">
+                    <br>
+                    <button v-if="editTask != task.id" type="button"  @click="onEdit(task)">Edit</button>
+                    <button v-else type="button" @click="editedTask(task)">Save</button>
+                    <button type="button" @click="deleteTask(task.id)">Delete</button>
                 </div>
             </div>
             <div class="drop-zone" @drop="onDrop($event, 'done')" @dragover.prevent @dragenter.prevent>
                 <h1>Done</h1>
                 <div class="drag-el" draggable @dragstart="onStart($event,task)" v-for="task in taskDone" :key="task.id" >
-                    {{ task.title }}
+                    <span v-if="editTask != task.id">{{ task.title }}</span>
+                    <input v-else class="edit-task" type="text" v-model="task.title">
+                    <br>
+                    <button v-if="editTask != task.id" type="button"  @click="onEdit(task)">Edit</button>
+                    <button v-else type="button" @click="editedTask(task)">Save</button>
+                    <button type="button" @click="deleteTask(task.id)">Delete</button>
                 </div>
             </div>
         </div>
