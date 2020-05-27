@@ -1,10 +1,20 @@
 <template>
     <div class="container">
+        <div class="addTask">
+            <input id="new task" type="taxt" v-model="nawTask">
+            <button  type="botton" @click="addTask(nawTask)">Add New Task</button>
+        </div>
         <div class="task-zone">
             <div class="drop-zone" @drop="onDrop($event, 'todo')" @dragover.prevent @dragenter.prevent>
                 <h1>To-Do</h1>
                 <div class="drag-el" draggable @dragstart="onStart($event,task)" v-for="task in taskTodo" :key="task.id" >
-                    {{ task.title }}
+                    <!-- {{ task.title }} -->
+                    <span v-if="editTask != task.id">{{ task.title }}</span>
+                    <input v-else class="edit-task" type="text" v-model="task.title">
+                    <br>
+                    <button v-if="editTask != task.id" type="button"  @click="onEdit(task)">Edit</button>
+                    <button v-else type="button" @click="editedTask(task)">Save</button>
+                    <button type="button" @click="deleteTask(task.id)">Delete</button>
                 </div>
             </div>
             <div class="drop-zone" @drop="onDrop($event, 'doing')" @dragover.prevent @dragenter.prevent>
@@ -49,7 +59,9 @@ export default {
                     title: 'Item D',
                     status: 'done'
                 }
-            ]
+            ],
+            nawTask:"",
+            editTask:""
         }
     },
     computed:{
@@ -74,6 +86,22 @@ export default {
             const task = this.tasks.find(task => task.id == taskId)
             task.status = newStatus
             console.log(task)
+        },
+        addTask(nawTask){
+            let newId =this.tasks.length + 1
+            this.tasks.push({id: newId,  title: nawTask, status: 'todo'})
+            this.nawTask = ""
+        },
+        onEdit(task){
+            this.editTask = task.id
+        },
+        editedTask(updateTask){
+            const task = this.tasks.find(task => task.id == updateTask.id)
+            task.title = updateTask.title
+            this.editTask = ""
+        },
+        deleteTask(deleteTask){
+            this.tasks = this.tasks.filter(task => task.id != deleteTask.id)
         }
 
     }
@@ -102,5 +130,9 @@ export default {
     border-radius: 10px;
     margin: 5px auto;
     padding-top: 15px;
+}
+.addTask{
+    margin: 30px;
+    
 }
 </style>
